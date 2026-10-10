@@ -5,61 +5,62 @@ template <typename T>
 class My_Queue
 {
 private:
-    T *Q;
-    int capacity;
-    int front;
-    int rear;
+
+    class Node
+    {
+    public:
+        T data;
+        Node *next;
+
+        Node(T value)
+        {
+            data = value;
+            next = nullptr;
+        }
+    };
+
+    Node *front;
+    Node *rear;
 
 public:
 
     // Constructor
-    My_Queue(int c = 10)
+    My_Queue()
     {
-        capacity = c;
-        Q = new T[capacity];
-
-        front = -1;
-        rear = -1;
+        front = nullptr;
+        rear = nullptr;
     }
 
     // Destructor
     ~My_Queue()
     {
-        delete[] Q;
+        while (!isEmpty())
+        {
+            dequeue();
+        }
     }
 
     // Check if queue is empty
     bool isEmpty()
     {
-        return front == -1;
-    }
-
-    // Check if queue is full
-    bool isFull()
-    {
-        return (rear + 1) % capacity == front;
+        return front == nullptr;
     }
 
     // Add element
     void enqueue(T data)
     {
-        if (isFull())
-        {
-            cout << "Queue is full" << endl;
-            return;
-        }
+        Node *temp = new Node(data);
 
-        // First element
-        if (front == -1)
+        // Queue is empty
+        if (front == nullptr)
         {
-            front = rear = 0;
+            front = rear = temp;
         }
         else
         {
-            rear = (rear + 1) % capacity;
+            rear->next = temp;
+            rear = temp;
         }
-
-        Q[rear] = data;
     }
 
     // Remove element
@@ -71,17 +72,19 @@ public:
             return T();
         }
 
-        T data = Q[front];
+        Node *temp = front;
 
-        // Only one element
-        if (front == rear)
+        T data = temp->data;
+
+        front = front->next;
+
+        // Queue becomes empty
+        if (front == nullptr)
         {
-            front = rear = -1;
+            rear = nullptr;
         }
-        else
-        {
-            front = (front + 1) % capacity;
-        }
+
+        delete temp;
 
         return data;
     }
@@ -95,7 +98,7 @@ public:
             return T();
         }
 
-        return Q[front];
+        return front->data;
     }
 
     // Get rear element
@@ -107,7 +110,7 @@ public:
             return T();
         }
 
-        return Q[rear];
+        return rear->data;
     }
 
     // Display queue
@@ -119,16 +122,12 @@ public:
             return;
         }
 
-        int i = front;
+        Node *curr = front;
 
-        while (true)
+        while (curr != nullptr)
         {
-            cout << Q[i] << " ";
-
-            if (i == rear)
-                break;
-
-            i = (i + 1) % capacity;
+            cout << curr->data << " ";
+            curr = curr->next;
         }
 
         cout << endl;
@@ -138,13 +137,12 @@ public:
 
 int main()
 {
-    My_Queue<int> q(5);
+    My_Queue<int> q;
 
     q.enqueue(10);
     q.enqueue(20);
     q.enqueue(30);
     q.enqueue(40);
-    q.enqueue(50);
 
     q.display();
 
@@ -153,11 +151,6 @@ int main()
 
     cout << "Deleted: " << q.dequeue() << endl;
     cout << "Deleted: " << q.dequeue() << endl;
-
-    q.display();
-
-    q.enqueue(60);
-    q.enqueue(70);
 
     q.display();
 

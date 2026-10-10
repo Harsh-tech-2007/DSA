@@ -1,6 +1,9 @@
 #include <iostream>
 using namespace std;
 
+
+// enqueue(),dequeue(),peek() / front(),isEmpty(),isFull(),size()
+
 template <typename T>
 class My_Queue
 {

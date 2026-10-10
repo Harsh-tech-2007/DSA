@@ -430,7 +430,7 @@ public:
         list.insertAtTail(10);
         list.insertAtTail(10);
         list.insertAtTail(70);
-         list.display();
+        list.display();
         list.removeElements(10);
         list.display();
 

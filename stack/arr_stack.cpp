@@ -1,6 +1,8 @@
 #include <iostream>
 using namespace std;
 
+// push(element),pop(),peek() or top(),isEmpty(),isFull(),size()
+
 template <typename T>
 class Stack
 {
@@ -98,3 +100,20 @@ public:
     }
 
 };
+
+
+int main(){
+
+    Stack<int>  S;
+
+    cout <<"Is stack empty =" <<S.isEmpty() << endl;
+    cout << "Is stack full =" << S.isFull() << endl;
+    S.push(10);
+    S.push(20);
+    S.push(30);
+    S.display();
+    S.pop();
+    S.display();
+    cout << "Top element ="<<S.peek() << endl;
+    cout << "Size of Stack =" << S.size() << endl;
+}
