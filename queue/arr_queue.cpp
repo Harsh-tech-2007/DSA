@@ -5,6 +5,7 @@ using namespace std;
 // enqueue(),dequeue(),peek() / front(),isEmpty(),isFull(),size()
 
 template <typename T>
+
 class My_Queue
 {
 private:
@@ -40,6 +41,7 @@ public:
         Q[rear] = data;
         rear++;
     }
+    
 
     T dequeue()
     {
